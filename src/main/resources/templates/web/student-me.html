@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>My Profile</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #f5f7fa;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .card {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1.5rem;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 1.5rem;
+            font-size: 28px;
+        }
+        h2 {
+            color: #333;
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 0.5rem;
+        }
+        .info-list {
+            list-style: none;
+        }
+        .info-list li {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #eee;
+            color: #555;
+        }
+        .info-list li:last-child {
+            border-bottom: none;
+        }
+        .info-list strong {
+            color: #333;
+        }
+        .alert-success {
+            background-color: #efe;
+            color: #3c3;
+            border: 1px solid #cfc;
+            padding: 1rem;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+        }
+        .alert-error {
+            background-color: #fee;
+            color: #c33;
+            border: 1px solid #fcc;
+            padding: 1rem;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #555;
+            font-weight: 500;
+        }
+        input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        .error-message {
+            color: #c33;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+            padding: 0.5rem;
+            background: #fee;
+            border-left: 3px solid #c33;
+            border-radius: 2px;
+        }
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        button {
+            flex: 1;
+            padding: 0.75rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        .back-link {
+            flex: 1;
+            text-align: center;
+            padding: 0.75rem;
+            background: #f0f0f0;
+            color: #666;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 600;
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .back-link:hover {
+            background: #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="card">
+        <h1>My Profile</h1>
+
+        <div th:if="${param.success}" class="alert-success">Profile updated!</div>
+        <div th:if="${error}" class="alert-error" th:text="${error}"></div>
+    </div>
+
+    <div class="card">
+        <h2>Current Info</h2>
+        <ul class="info-list">
+            <li><strong>ID:</strong> <span th:text="${me.studentId}"></span></li>
+            <li><strong>Name:</strong> <span th:text="${me.name}"></span></li>
+            <li><strong>Email:</strong> <span th:text="${me.email}"></span></li>
+            <li><strong>Phone:</strong> <span th:text="${me.phone}"></span></li>
+            <li><strong>Department:</strong> <span th:text="${me.deptCode}"></span></li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>Update Info</h2>
+
+        <form th:action="@{/web/students/me}" th:object="${profileForm}" method="post">
+
+            <div class="form-group">
+                <label>Name</label>
+                <input th:field="*{name}" />
+                <div class="error-message" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+            </div>
+
+            <div class="form-group">
+                <label>Email</label>
+                <input th:field="*{email}" />
+                <div class="error-message" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+            </div>
+
+            <div class="form-group">
+                <label>Phone</label>
+                <input th:field="*{phone}" />
+            </div>
+
+            <div class="form-actions">
+                <button type="submit">Update</button>
+                <a class="back-link" th:href="@{/web/home}">Back</a>
+            </div>
+
+        </form>
+    </div>
+</div>
+</body>
+</html>

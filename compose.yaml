@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: ams-postgres
+    environment:
+      POSTGRES_DB: ams
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1245
+    ports:
+      - "5432:5432"
+    volumes:
+      - ams_pgdata:/var/lib/postgresql/data
+
+volumes:
+  ams_pgdata:
